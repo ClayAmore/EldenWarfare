@@ -1,7 +1,7 @@
 # WARNING
 This is still in alpha so bugs are expected.
 
-# Elden Warfare
+# EldenWarfare
 A mod for playing Team Fights and Brawls in Elden Rings vast open world.
 
 ## Requirments
@@ -31,3 +31,5 @@ Pav - Author of one the most useful EldenRing Cheat Tables. <br/>
 [tremwil](https://github.com/tremwil/) - Helped me a bunch on my previous mod. That knowledge carried over. <br/>
 [LukeYui](https://github.com/LukeYui/) - Author of Seamless coop. <br/>
 
+## Compilation Notes
+In `Project Properties -> Build Events -> Post-Build Event -> Command Line.`. There's a post build event that copies the DLL into the `Elden Ring/Game/mods` folder. This can cause compilation errors if your game is installed elsewhere. Remove it.
