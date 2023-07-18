@@ -24,6 +24,7 @@ You can use the [Helper](https://github.com/ClayAmore/EldenWarfare-Helper/releas
 * Respawns without loading screen.
 
 ## Thank You
+[NordGaren](https://github.com/Nordgaren/) - For being very heplful 🙌
 [Techiew](https://github.com/Techiew/) - For his Modloader and DirectXHook. <br/>
 [Dasaav](https://github.com/dasaav-dsv/) - For his RTTI Scanner and VFTHook. <br/>
 Pav - Author of one the most useful EldenRing Cheat Tables. <br/>
