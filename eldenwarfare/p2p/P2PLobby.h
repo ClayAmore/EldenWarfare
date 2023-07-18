@@ -5,7 +5,6 @@
 #include "data/P2PLobbyData.h"
 #include "game/BrawlManager.h"
 #include "game/TeamFightManager.h"
-#include "OverflowHandler.h"
 #include "Settings.h"
 #include <typeinfo>
 

@@ -16,7 +16,6 @@
 #include "Menu.h"
 #include "Damage.h"
 #include "Death.h"
-#include "OverflowHandler.h"
 #include "RTTIScanner.h"
 #include "VFTHook.h"
 

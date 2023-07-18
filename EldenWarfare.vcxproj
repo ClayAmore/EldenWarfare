@@ -207,7 +207,6 @@
     <ClCompile Include="eldenwarfare\p2p\game\BrawlManager.cpp" />
     <ClCompile Include="eldenwarfare\p2p\game\TeamFightManager.cpp" />
     <ClCompile Include="eldenwarfare\p2p\P2PLobby.cpp" />
-    <ClCompile Include="eldenwarfare\utils\HookSetup.cpp" />
     <ClCompile Include="eldenwarfare\utils\SigScan.cpp" />
     <ClCompile Include="src\DirectXHook.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
@@ -245,7 +244,6 @@
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\MemoryUtils.h" />
     <ClInclude Include="include\Menu.h" />
-    <ClInclude Include="include\OverflowHandler.h" />
     <ClInclude Include="include\OverlayFramework.h" />
     <ClInclude Include="include\ParamEditor.h" />
     <ClInclude Include="include\PE.h" />
