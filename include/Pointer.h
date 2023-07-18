@@ -1,3 +1,4 @@
+/* MIT license */
 #pragma once
 #ifndef _DEEP_PTR_H
 #define _DEEP_PTR_H

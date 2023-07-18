@@ -1,3 +1,4 @@
+/* MIT license */
 #pragma once
 #include "mem/pattern.h"
 #include "mem/module.h"
