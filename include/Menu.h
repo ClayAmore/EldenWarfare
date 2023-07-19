@@ -4,7 +4,7 @@
 
 #define PULSE_MESSAGE_TIMER_KEY "PULSE_MESSAGE_TIMER"
 
-#define PHANTOM_FINGER_RULE "Controller: X/A and L2.\nKeyboard: Space and C"
+#define PHANTOM_FINGER_RULE "Controller: X/A and O/B.\nKeyboard: Space and E"
 
 #define PULSING_MESSAGE_RULE_IV "You need to use the judicators book and pick Rule IV: All wanderers are enemies!"
 #define PULSING_MESSAGE_RULE_XX "You need to use the judicators book and pick Rule XX: Some wanderers are enemies!"

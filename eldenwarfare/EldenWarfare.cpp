@@ -241,7 +241,6 @@ void EldenWarfare::Render()
 		return;
 	}
 
-
 	/*
 		Used for things that should run once when the game is ready.
 		It's currently used to change the items for the mod.
@@ -316,7 +315,7 @@ void EldenWarfare::Render()
 	/*
 		Pulsingmessage queue. My own implemenation for a notification/messaging system beacuse
 		I couldn't figure out how to use the games own. 
-		If there's a message in the queue display it on screentfor 6 seconds.
+		If there's a message in the queue display it on screen for 6 seconds.
 	*/
 	if (!Menu::PulseMessages.empty()) {
 		if (!Timer::HasTimer(PULSE_MESSAGE_TIMER_KEY)) Timer::StartTimer(PULSE_MESSAGE_TIMER_KEY, 6.0);
@@ -332,7 +331,6 @@ void EldenWarfare::Render()
 		overlay to the new size.
 	*/
 	checkForWindowResize();
-
 
 	/*
 		Stops the code unless you are in the a match.
@@ -455,34 +453,25 @@ void EldenWarfare::handleItemTeleporting(uint8_t* playerIns) {
 		Done,
 	} currentState = Teleporting;
 
-	static bool teleportButtonDown;
-	static bool spawnButtonDown;
-
-	printf("SpawnbuttonDown is: %d\n", spawnButtonDown);
-	printf("teleportButtonDown is: %d\n", teleportButtonDown);
 
 	uint8_t* FD4PadMan = AccessDeepPtr<uint8_t>(Global::FD4PAD_MAN.ptr());
 	uint32_t* teleportButton = AccessDeepPtr<uint32_t>(FD4PadMan, 0x18, 0x8, 0x7C8, 0x20);
 	uint32_t* spawnButton = AccessDeepPtr<uint32_t>(FD4PadMan, 0x18, 0x8, 0x7C8, 0x10);
 	Menu::EnqueueUnique(PHANTOM_FINGER_RULE);
 
-	if (
-		*teleportButton == 0 &&
-		teleportButtonDown
-		) {
+	if (FD4PadMan::IsButtonPressed(FD4PadMan::A) || FD4PadMan::IsButtonPressed(FD4PadMan::Space)) {
 		Player::RandomTeleport(100.0f, playerIns);
 	}
 
-	if (*spawnButton == 0 && spawnButtonDown) currentState = Done;
+	if (FD4PadMan::IsButtonPressed(FD4PadMan::B) || FD4PadMan::IsButtonPressed(FD4PadMan::E)) currentState = Done;
 
-	spawnButtonDown = *spawnButton > 0;
-	teleportButtonDown = *teleportButton > 0;
+	// This can be moved to the main render function if button press
+	// is used in multiple functions. For now this is good here.
+	FD4PadMan::RegisterDownButtons();
 
 	switch (currentState) {
 	case Teleporting: {
-		if (
-			!Timer::HasTimer(TELEPORT_TIMER)
-			) {
+		if (!Timer::HasTimer(TELEPORT_TIMER)) {
 			Player::ForceAnimationPlayback(ANIMATION_DEATH_FADE);
 			Timer::StartTimer(TELEPORT_TIMER, 3.0);
 		}

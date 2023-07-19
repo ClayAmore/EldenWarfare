@@ -231,6 +231,7 @@
     <ClInclude Include="include\Death.h" />
     <ClInclude Include="include\Damage.h" />
     <ClInclude Include="include\DirectXHook.h" />
+    <ClInclude Include="include\FD4PadMan.h" />
     <ClInclude Include="third_party\nlohmann.json\json.hpp" />
     <ClInclude Include="include\Settings.h" />
     <ClInclude Include="include\SpEffect.h" />

@@ -6,6 +6,7 @@ class HookSetup {
 public:
 	static bool Init();
 	static bool CreateHook(void* function_ptr, void* detour_function, void** detour_function_original);
+    static bool CreateApiHook(LPCWSTR pzzModule, LPCSTR pszProcname, LPVOID pDetour, LPVOID* ppOriginal);
 	static bool EnableHooks();
 };
 
@@ -22,6 +23,17 @@ inline bool HookSetup::Init() {
 
 inline bool HookSetup::CreateHook(void* function_ptr, void* detour_function, void** detour_function_original) {
     MH_STATUS create_hook_status = MH_CreateHook(function_ptr, detour_function, detour_function_original);
+
+    if (create_hook_status != MH_OK) {
+        //printf("create_hook_status failed\n");
+        return false;
+    }
+
+    return true;
+}
+
+inline bool HookSetup::CreateApiHook(LPCWSTR pzzModule, LPCSTR pszProcname, LPVOID pDetour, LPVOID* ppOriginal) {
+    MH_STATUS create_hook_status = MH_CreateHookApi(pzzModule, pszProcname, pDetour, ppOriginal);
 
     if (create_hook_status != MH_OK) {
         //printf("create_hook_status failed\n");

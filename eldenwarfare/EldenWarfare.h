@@ -18,10 +18,7 @@
 #include "Death.h"
 #include "RTTIScanner.h"
 #include "VFTHook.h"
-
-// For error dialog if game is running without Seamless
-EXTERN_C IMAGE_DOS_HEADER __ImageBase;
-#define HINST_THISMODULE ((HINSTANCE)&__ImageBase)
+#include "FD4PadMan.h"
 
 #define MAX_MESSAGE_LENGTH 258
 
@@ -47,13 +44,10 @@ public:
 	static bool InMatch;
 
 	static uint8_t MenuHook(void* param1, void* param2, uint8_t param3, uint8_t param4);
-	static uint8_t* DisplayBlinkingMessageHook(uint16_t param1, uint8_t param2, const WCHAR** param3);
 	static void AddSPEffectHook(uint8_t* playerIns, uint32_t speffectId, int param3);
 	static void ItemGiveLuaHook(uint64_t mapItemManager, Item::ItemGiveStruct* itemInfo, void* itemDetails);
 	static void DamageFunctionHook(Damage::ChrDamageModule* damageModule, Damage::ChrIns* chrIns, Damage::DamageStruct* damageStruct, uint64_t param_4, uint8_t param_5);
-	static void EventMessageHook(uint64_t param1, uint32_t param2, uint8_t* csEmkEventIns);
 	static void ItemUseHook(Item::ItemUseStruct itemUseStruct);
-	static void WarpHook(void* CSLuaEventProxy, void* CSLuaEventScriptImitation, uint32_t warpLocation);
 
 private:
 	std::string dllPath;
