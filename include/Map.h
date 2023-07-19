@@ -6,7 +6,7 @@
 #include <nlohmann.json/json.hpp>
 
 #define MAX_MAP_CACHE_SIZE 5
-#define MAX_RECURSIVE_CALLS 30
+#define MAX_RECURSIVE_CALLS 40
 
 using namespace EW;
 
