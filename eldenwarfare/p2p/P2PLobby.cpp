@@ -66,6 +66,31 @@ namespace P2P {
 		return _netChrsetSyncId;
 	}
 
+	Vector3 P2PLobby::GetRandomLobbyMemberCoords() {
+		int maxNumLobbyMembers = _steamMatchMaking->GetNumLobbyMembers(_lobbyId);
+
+		if (maxNumLobbyMembers < 2) return Vector3(0,0,0);
+
+		CSteamID mySteamId = GetSelfSteamId();
+		CSteamID lobbyMemberId;
+
+		do {
+			uint32_t lb = 0, ub = maxNumLobbyMembers - 1;
+			uint32_t index = rand() % (ub - lb + 1) + lb;
+
+			lobbyMemberId = _steamMatchMaking->GetLobbyMemberByIndex(_lobbyId, index);
+		} while (mySteamId == lobbyMemberId);
+
+		Vector3 coords;
+		readLobbyMemberData(lobbyMemberId, [&coords](const P2PLobbyMemberData& lobbyMemberData) {
+			coords.x = lobbyMemberData.coords.x;
+			coords.y = lobbyMemberData.coords.y;
+			coords.z = lobbyMemberData.coords.z;
+		});
+
+		return coords;
+	}
+
 	// Lobby Data
 	bool P2PLobby::SyncLobbyData() {
 		printf("Synchronizing data...\n");
@@ -131,6 +156,8 @@ namespace P2P {
 		switch (header->type) {
 		case UpdateKills: {
 			auto messageData = (P2PLobbyUpdateKillsMsg*)message.data();
+			std::cout << "KilledId is " << messageData->killerId  << std::endl;
+			std::cout << "My NetChrSetSyncId is " << _netChrsetSyncId << std::endl;
 			if (messageData->killerId == _netChrsetSyncId) {
 				MyLobbyMemberData.kills++;
 				if (LocalLobbyData.mode == Mode::TeamFight) _teamFightManager->OnKillUpdate();
@@ -457,7 +484,10 @@ namespace P2P {
 			UpdateLobbyMemberData();
 		}
 
-		_teamFightManager->DisplayPickTeamMessage();
+		if (!isTeamPicked) {
+			_teamFightManager->DisplayPickTeamMessage();
+			Seamless::ForceUseSeamlessItem(Seamless::JUDICATORS_RULEBOOK_REF);
+		}
 
 		if (!isHost) return;
 

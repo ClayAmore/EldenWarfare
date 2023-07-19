@@ -95,6 +95,7 @@ namespace P2P {
         uint16_t kills = 0;
         uint16_t deaths = 0;
         char charName[32] = "";
+        Vector3 coords = Vector3(0, 0, 0);
 
         std::string serialize() const {
             json j;
@@ -103,6 +104,9 @@ namespace P2P {
             j["charName"] = charName;
             j["kills"] = kills;
             j["deaths"] = deaths;
+            j["coords"]["x"] = coords.x;
+            j["coords"]["y"] = coords.y;
+            j["coords"]["z"] = coords.z;
             return j.dump();
         }
 
@@ -116,6 +120,11 @@ namespace P2P {
             std::string charName = j["charName"].get<std::string>();
             std::strncpy(data.charName, charName.c_str(), sizeof(data.charName) - 1);
             data.charName[sizeof(data.charName) - 1] = '\0';
+            data.coords = Vector3(
+                j["coords"]["x"].get<float>(),
+                j["coords"]["y"].get<float>(),
+                j["coords"]["z"].get<float>()
+            );
             return data;
         }
     };

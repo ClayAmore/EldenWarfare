@@ -33,7 +33,6 @@ namespace P2P {
 			Death::ToggleDeathEventTriggerListener(OFF);
 			Death::ToggleDeathFallCameraListener(OFF);
 			Death::ToggleDeathMapHitListener(OFF);
-			for (int i = 0; i < Menu::PulseMessages.size(); i++) Menu::PulseMessages.pop();
 			Menu::EnqueueUnique(PULSING_MESSAGE_STARTING_SOON);
 		}
 

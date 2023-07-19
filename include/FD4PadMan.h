@@ -51,17 +51,6 @@ inline void FD4PadMan::RegisterDownButtons() {
 		return;
 	}
 
-	for (int i = 0; i < 7; i++) {
-		std::cout << "0: " << pb->pressedButton[0] << std::endl;
-		std::cout << "1: " << pb->pressedButton[1] << std::endl;
-		std::cout << "2: " << pb->pressedButton[2] << std::endl;
-		std::cout << "3: " << pb->pressedButton[3] << std::endl;
-		std::cout << "4: " << pb->pressedButton[4] << std::endl;
-		std::cout << "5: " << pb->pressedButton[5] << std::endl;
-		std::cout << "6: " << pb->pressedButton[6] << std::endl;
-		std::cout << "7: " << pb->pressedButton[7] << std::endl;
-	}
-
 	A_down     = (pb->pressedButton[4] == 0x00014000 && pb->pressedButton[7] == 0x02000000);
 	B_down     = (pb->pressedButton[4] == 0x00041000 && pb->pressedButton[7] == 0x00800000);
 	E_down	   = (pb->pressedButton[3] == 0x00010000 && pb->pressedButton[6] == 0x08000000);

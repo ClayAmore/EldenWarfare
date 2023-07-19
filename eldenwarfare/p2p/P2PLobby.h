@@ -42,6 +42,7 @@ namespace P2P {
 
         // Getters for local varibales
         uint32_t GetMyChrSetSyncId();
+        Vector3 GetRandomLobbyMemberCoords();
 
         // Lobby Data
         bool SyncLobbyData();

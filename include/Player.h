@@ -17,6 +17,8 @@
 #define TELEPORT_TIMER "TELEPORT_TIMER"
 #define TELEPORT_BUTTON_TIMER "TELEPORT_BUTTON_TIMER"
 
+#define PLAYER_COORDS_UPDATE_TIMER_KEY "PLAYER_COORDS_UPDATE_TIMER_KEY"
+
 class Player {
 public:
 
@@ -105,6 +107,7 @@ public:
 	static void ForceAnimationPlayback(uint32_t animationId, uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static void Teleport(Vector3 coords, uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static void RandomTeleport(float maxDistance, uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
+	static void RandomTeleport(Vector3 coords, float maxDistance, uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static bool IsDying(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static void ForceDeath(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static void HealToFull(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
@@ -121,6 +124,7 @@ public:
 	static std::wstring GetPlayerName(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static std::string GetPlayerNameAsString(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 	static uint32_t GetPlayerNetChrSyncID(int playerIndex = 0);
+	static Vector3 GetCurrentPos(uint8_t* playerIns = GetPlayerIns<uint8_t>(0));
 };
 
 template <typename T> T* Player::GetPlayerIns(int index) {
@@ -206,16 +210,18 @@ inline void Player::Teleport(Vector3 coords, uint8_t* playerIns) {
 	localPos->x = localPos->x + coords.x - absPos->x;
 	localPos->y = localPos->y + coords.y - absPos->y;
 	localPos->z = localPos->z + coords.z - absPos->z;
-
-	std::cout << "Coords are: " << std::endl;
-	std::cout << "X: " << localPos->x << std::endl;
-	std::cout << "Y: " << localPos->y << std::endl;
-	std::cout << "Z: " << localPos->z << std::endl;
 }
 
 inline void Player::RandomTeleport(float maxDistance, uint8_t* playerIns) {
 	Vector3* absPos = AccessDeepPtr<Vector3>(playerIns, 0x6C0);
 	std::vector<Vector3> nearbyCoords = Map::Map::GetNearbySpwanPoints(Vector3(absPos->x, absPos->y, absPos->z), maxDistance);
+	uint32_t lb = 0, ub = nearbyCoords.size() - 1;
+	uint32_t index = rand() % (ub - lb + 1) + lb;
+	Teleport(nearbyCoords[index]);
+}
+
+inline void Player::RandomTeleport(Vector3 coords, float maxDistance, uint8_t* playerIns) {
+	std::vector<Vector3> nearbyCoords = Map::Map::GetNearbySpwanPoints(Vector3(coords.x, coords.y, coords.z), maxDistance);
 	uint32_t lb = 0, ub = nearbyCoords.size() - 1;
 	uint32_t index = rand() % (ub - lb + 1) + lb;
 	Teleport(nearbyCoords[index]);
@@ -335,4 +341,15 @@ inline std::string Player::GetPlayerNameAsString(uint8_t* playerIns) {
 inline uint32_t Player::GetPlayerNetChrSyncID(int playerIndex) {
 	Player::PlayerIns* playerIns = (Player::PlayerIns*)*Player::GetPlayerIns<uintptr_t>(playerIndex);
 	return playerIns->net_chrset_sync_id;
+}
+
+inline Vector3 Player::GetCurrentPos(uint8_t* playerIns) {
+	Vector3* absPos = AccessDeepPtr<Vector3>(playerIns, 0x6C0);
+
+	if (absPos == nullptr) {
+		printf("Something went wrong. Couldn't get player position!\n");
+		return Vector3(0,0,0);
+	}
+
+	return *absPos;
 }

@@ -82,6 +82,7 @@ private:
 	void checkForWindowResize();
 	void displayPulseMessage(std::string);
 	void handleDeath(uint8_t* playerIns);
+	void updatePosition();
 	void handleItemTeleporting(uint8_t* playerIns);
 	void sendScoreUpdateRequest();
 	void displayScoreOverlay();

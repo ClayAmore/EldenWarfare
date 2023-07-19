@@ -63,24 +63,37 @@ public:
     typedef void EventMessageFunctions(uint64_t param1, uint32_t param2, uint8_t* csEmkEventIns);
     
     static std::queue<std::string> PulseMessages;
+    static std::unordered_map<std::string, bool> InQueue;
 	static MenuHookFunction* MenuHookOriginal;
     static EventMessageFunctions* EventMessageHookOriginal;
     static DisplayBlinkingMessageFunction* DisplayBlinkingMessageOriginal;
 
     static void EnqueueUnique(const std::string& message);
     static void RemoveIfFirst(const std::string& message);
+    static void PopMessageQueue();
 
     static void DisplayBanner(BannerType bannerType);
 };
 
 inline void Menu::EnqueueUnique(const std::string& message) {
-    if (PulseMessages.empty() || PulseMessages.front() != message) {
-        PulseMessages.push(message);
+    if (InQueue[message]) return;
+
+    if (PulseMessages.empty()) {
+        InQueue[message] = true;
+        return PulseMessages.push(message);
     }
 }
 
 inline void Menu::RemoveIfFirst(const std::string& message) {
-    if (PulseMessages.front() == message) PulseMessages.pop();
+    if (PulseMessages.front() == message) {
+        InQueue[message] = false;
+        PulseMessages.pop();
+    }
+}
+
+inline void Menu::PopMessageQueue() {
+    InQueue[PulseMessages.front()] = false;
+    PulseMessages.pop();
 }
 
 inline void Menu::DisplayBanner(Menu::BannerType bannerType) {

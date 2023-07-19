@@ -18,6 +18,7 @@ uint32_t EldenWarfare::LastPlayerToHitMe = 0;
 bool Map::Map::NPCsHidden = false;
 uint32_t Map::Map::CurrentMapId = 0;
 std::queue<std::string> Menu::PulseMessages;
+std::unordered_map<std::string, bool> Menu::InQueue;
 std::unordered_map<std::string, std::pair<TimePoint, double>> Timer::Timers;
 Settings::ModPreferences Settings::modPreferences;
 
@@ -321,7 +322,7 @@ void EldenWarfare::Render()
 		if (!Timer::HasTimer(PULSE_MESSAGE_TIMER_KEY)) Timer::StartTimer(PULSE_MESSAGE_TIMER_KEY, 6.0);
 		displayPulseMessage(Menu::PulseMessages.front());
 		if (Timer::RemainingTime(PULSE_MESSAGE_TIMER_KEY) < 0) {
-			Menu::PulseMessages.pop();
+			Menu::PopMessageQueue();
 			Timer::EraseTimer(PULSE_MESSAGE_TIMER_KEY);
 		}
 	}
@@ -341,6 +342,12 @@ void EldenWarfare::Render()
 		Handles deaths in an active match.
 	*/
 	handleDeath(playerIns);
+
+	/*
+		Update players position to other lobby members can
+		use that position for closer respawn.
+	*/
+	updatePosition();
 
 	/*
 		Renders the game overlays.
@@ -460,7 +467,13 @@ void EldenWarfare::handleItemTeleporting(uint8_t* playerIns) {
 	Menu::EnqueueUnique(PHANTOM_FINGER_RULE);
 
 	if (FD4PadMan::IsButtonPressed(FD4PadMan::A) || FD4PadMan::IsButtonPressed(FD4PadMan::Space)) {
-		Player::RandomTeleport(100.0f, playerIns);
+		if (InMatch) {
+			Vector3 coords = _p2pLobby->GetRandomLobbyMemberCoords();
+			Player::RandomTeleport(coords, 25.0f, playerIns);
+		}
+		else {
+			Player::Teleport(100.0f, playerIns);
+		}
 	}
 
 	if (FD4PadMan::IsButtonPressed(FD4PadMan::B) || FD4PadMan::IsButtonPressed(FD4PadMan::E)) currentState = Done;
@@ -585,6 +598,21 @@ void EldenWarfare::handleDeath(uint8_t* playerIns) {
 	}
 }
 
+void EldenWarfare::updatePosition() {
+	if (!Timer::HasTimer(PLAYER_COORDS_UPDATE_TIMER_KEY)) 
+		Timer::StartTimer(PLAYER_COORDS_UPDATE_TIMER_KEY, 5.0);
+
+	if (Timer::RemainingTime(PLAYER_COORDS_UPDATE_TIMER_KEY) > 0.0) return;
+
+	Vector3 currentPos = Player::GetCurrentPos();
+	_p2pLobby->MyLobbyMemberData.coords = currentPos;
+	_p2pLobby->UpdateLobbyMemberData();
+
+	std::cout << "Updated current position." << std::endl;
+
+	Timer::EraseTimer(PLAYER_COORDS_UPDATE_TIMER_KEY);
+}
+
 void EldenWarfare::displayScoreOverlay() {
 	std::stringstream score;
 	int16_t blueTeamScore = _p2pLobby->LocalLobbyData.blueTeamScore;
@@ -668,6 +696,9 @@ void EldenWarfare::sendScoreUpdateRequest() {
 	char message[sizeof(P2PLobbyUpdateKillsMsg)];
 	memcpy(message, &msg, sizeof(P2PLobbyUpdateKillsMsg));
 	_p2pLobby->BroadcastMessageToLobbyMembers(message, sizeof(message));
+
+	// Reset the lastPersonToHitMeReference
+	LastPlayerToHitMe = 0;
 
 	// Increment my deaths and update Lobby
 	_p2pLobby->MyLobbyMemberData.deaths++;
