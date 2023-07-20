@@ -293,6 +293,7 @@ void EldenWarfare::Render()
 		3. Update the InMatch status.
 	*/
 	else if (RequestedMode != Mode::None) {
+		Item::RestoreFlasks();
 		if(InMatch) _p2pLobby->Cancel();
 		RequestedMode = Mode::None;
 		InMatch = false;
@@ -580,6 +581,7 @@ void EldenWarfare::handleDeath(uint8_t* playerIns) {
 
 	case Respawning:
 		// Perform actions for respawning
+		Item::RestoreFlasks();
 		Player::HealToFull();
 		Player::ResetPoise();
 		Player::RandomTeleport(50.0f, playerIns);

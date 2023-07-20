@@ -87,6 +87,7 @@ namespace GameItems {
         typedef void ItemUseFunction(ItemUseStruct itemUseStruct);
         typedef void ItemGiveFunction(ItemType itemType, int itemId, int quantity);
         typedef void ItemGiveLuaFunction(uint64_t mapItemManager, ItemGiveStruct* itemInfo, void* itemDetails);
+		typedef void RestoreFlasksFunction(void* playerIns);
         static ItemUseFunction* ItemUseFunctionOriginal;
         static ItemGiveLuaFunction* ItemGiveLuaFunctionOriginal;
 
@@ -94,6 +95,7 @@ namespace GameItems {
         static void ToggleBannedItems(bool on);
         static void DirectlyGivePlayerItem(ItemType itemType, int id, int quantity);
         static void RemoveItemFromPlayer(ItemType itemType, int id, uint32_t quantity);
+		static void RestoreFlasks();
 		static void SetupItems();
     };
 
@@ -136,6 +138,16 @@ namespace GameItems {
         DirectlyGivePlayerItem(itemType, itemId, quantity);
     }
 
+	inline void Item::RestoreFlasks() {
+		uintptr_t* playerIns = Player::GetPlayerIns<uintptr_t>(0);
+		RestoreFlasksFunction* restoreFlasksF = (RestoreFlasksFunction*)(Global::RESTORE_FLASKS.ptr());
+		printf("Playerins address is: %p\n", playerIns);
+		if (restoreFlasksF == nullptr) {
+			printf("Failed getting restoreFlasksF!\n");
+			return;
+		}
+		restoreFlasksF((void*)*playerIns);
+	}
 
 	inline void Item::SetupItems() {
 

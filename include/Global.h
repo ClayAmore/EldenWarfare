@@ -21,6 +21,7 @@ namespace Global {
     const SigScannedPtr<uint8_t> REMOVE_SPEFFECT_FUNCTION(Signature("48 83 EC 28 8B C2 48 8B 51 08 48 85 D2 ???? 90", 0, Signature::Type::Address));
     const SigScannedPtr<uint8_t> FD4PAD_MAN(Signature("48 8B 0D ?? ?? ?? ?? 33 D2 E8 ?? ?? ?? ?? 48 89 45 17", 0, Signature::Type::InInstruction));
     const SigScannedPtr<uint8_t> ADD_ITEM_FUNCTION(Signature("40 56 57 41 56 48 83 ec 50 48 c7 44 24 30 fe ff ff ff 48 89 5c 24 70 48 89 6c 24 78 41 8b f8 8b f2 48 8b 05 80 55 6f 03 48 8b 58 08", 0, Signature::Type::Address));
+    const SigScannedPtr<uint8_t> RESTORE_FLASKS(Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B 01 48 8B F9 32 DB", 0, Signature::Type::Address));
 
     // Differnet autorevive 
     const SigScannedPtr<uint8_t> DEATH_TRIGGER_EVENT_SETTER(Signature("01 48 8B 0D DC 2A 8E 03", 0, Signature::Type::Address));
