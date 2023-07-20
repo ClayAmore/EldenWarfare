@@ -293,7 +293,6 @@ void EldenWarfare::Render()
 		3. Update the InMatch status.
 	*/
 	else if (RequestedMode != Mode::None) {
-		Item::RestoreFlasks();
 		if(InMatch) _p2pLobby->Cancel();
 		RequestedMode = Mode::None;
 		InMatch = false;
