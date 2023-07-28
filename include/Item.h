@@ -141,7 +141,6 @@ namespace GameItems {
 	inline void Item::RestoreFlasks() {
 		uintptr_t* playerIns = Player::GetPlayerIns<uintptr_t>(0);
 		RestoreFlasksFunction* restoreFlasksF = (RestoreFlasksFunction*)(Global::RESTORE_FLASKS.ptr());
-		printf("Playerins address is: %p\n", playerIns);
 		if (restoreFlasksF == nullptr) {
 			printf("Failed getting restoreFlasksF!\n");
 			return;

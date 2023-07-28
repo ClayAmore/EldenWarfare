@@ -7,15 +7,22 @@ using namespace EW;
 
 class Death {
 public:
+	struct Bytes {
+		uint8_t unk1;
+		uint8_t unk2;
+		uint8_t unk3;
+		uint8_t toggle;
+	};
+
 	static void ToggleDeathEventTriggerListener(bool on);
 	static void ToggleDeathFallCameraListener(bool on);
 	static void ToggleDeathMapHitListener(bool on);
 };
 
 inline void Death::ToggleDeathEventTriggerListener(bool on) {
-	uint8_t* deathEventTriggerSetter = AccessDeepPtr<uint8_t>(Global::DEATH_TRIGGER_EVENT_SETTER.ptr());
+	Bytes* deathEventTriggerSetter = AccessDeepPtr<Bytes>(Global::DEATH_TRIGGER_EVENT_SETTER.ptr());
 	if (deathEventTriggerSetter == nullptr) return;
-	*deathEventTriggerSetter = on;
+	deathEventTriggerSetter->toggle = on;
 }
 
 inline void Death::ToggleDeathFallCameraListener(bool on) {
