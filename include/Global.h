@@ -25,6 +25,6 @@ namespace Global {
 
     // Differnet autorevive 
     const SigScannedPtr<uint8_t> DEATH_TRIGGER_EVENT_SETTER(Signature("83 49 24 01 48 ?? ?? ?? ?? ?? 03 48 85 ?? 75 ?? 48 ?? ?? ?? ?? ?? 03", 0, Signature::Type::Address));
-    const SigScannedPtr<uint8_t> FALL_CAMERA_SETTER(Signature("01 C0 E2 02 08 91 ?? 01 00 00 C3 49 89 06 48 8D", 0, Signature::Type::Address));
+    const SigScannedPtr<uint8_t> FALL_CAMERA_SETTER(Signature("01 C0 E2 02 08 91 ?? 01 00 00 C3 49 ?? ?? 48 8D", 0, Signature::Type::Address));
     const SigScannedPtr<uint8_t> DEATH_DISABLE_MAP_HIT_SETTER(Signature("01 C3 83 A1 F0 00 00 00", 0, Signature::Type::Address));
 }
