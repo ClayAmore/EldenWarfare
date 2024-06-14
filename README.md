@@ -20,7 +20,7 @@ This mod is designed to work with Seamless 2.0. Make sure to get it from Seamles
 
 ## Thank You
 [NordGaren](https://github.com/Nordgaren/) - For being very helpful 🙌 <br/>
-[Techiew](https://github.com/Techiew/) - For their Modloader and DirectXHook. <br/>
+[Techiew](https://github.com/Techiew/) - For their DirectXHook. <br/>
 [Dasaav](https://github.com/dasaav-dsv/) - For their RTTI Scanner and VFTHook. <br/>
 Pav - Author of one the most useful EldenRing Cheat Tables. <br/>
 [tremwil](https://github.com/tremwil/) - Helped me a bunch on my previous mod. That knowledge carried over. <br/>
