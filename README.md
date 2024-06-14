@@ -8,14 +8,9 @@ A mod for playing Team Fights and Brawls in Elden Rings vast open world.
 This mod is designed to work with Seamless 2.0. Make sure to get it from Seamless NexusMod page.
 
 ## Installation
-You can use the [Helper](https://github.com/ClayAmore/EldenWarfare-Helper/releases/tag/v1.0.0alpha).
-
-![image](https://github.com/ClayAmore/EldenWarfare/assets/131625063/d622ab20-ba9d-4ac6-91ca-76ab366dd08a)
-
-### Or follow these steps.
 1. Download the latest mod [Release](https://github.com/ClayAmore/EldenWarfare/releases).
-2. Extract the files in your game folder. (WARNING!! Remove game files after you're done playing or use the helper to deactive the mod).
-3. Run Seamless Co-op 2.0.
+2. Extract the files anywhere.
+3. Run Launcher.exe.
 
 ## Features
 * Gamemodes. Currently Team Fights and Brawls.
